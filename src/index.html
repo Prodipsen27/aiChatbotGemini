@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chatbot</title>
+
+  <!-- Tailwind CSS CDN -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link href="./output.css" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Light theme variables */
+      --bg-color: #f3f4f6;
+      --text-color: #1f2937;
+      --suggestion-bg: #e5e7eb;
+      --suggestion-hover-bg: #60a5fa;
+      --suggestion-hover-text: #1e3a8a;
+    }
+
+    [data-theme="dark"] {
+      /* Dark theme variables */
+      --bg-color: #1f2937;
+      --text-color: #f3f4f6;
+      --suggestion-bg: #374151;
+      --suggestion-hover-bg: #2563eb;
+      --suggestion-hover-text: #d1d5db;
+    }
+
+    /* Applying theme to body */
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    .suggestion-list li {
+      background-color: var(--suggestion-bg);
+    }
+
+    .suggestion-list li:hover {
+      background-color: var(--suggestion-hover-bg);
+      color: var(--suggestion-hover-text);
+    }
+
+    /* Custom styling for the container to manage chat and typing area */
+    #chatContainer {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100vh; /* Full viewport height */
+      max-height: 100vh;
+    }
+
+    /* Ensure chat list takes up remaining space and stays scrollable */
+    #chat1 {
+      flex-grow: 1;
+      overflow-y: auto;
+    }
+
+    /* Auto-scroll function */
+    #chat1::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #chat1::-webkit-scrollbar-thumb {
+      background-color: #888;
+      border-radius: 4px;
+    }
+
+    #chat1::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+  </style>
+<!-- 
+  <script type="importmap">
+    {
+      "imports": {
+        "@google/generative-ai": "https://esm.run/@google/generative-ai"
+      }
+    }
+  </script> -->
+  
+</head>
+
+<body class="min-h-screen flex flex-col justify-between items-center px-4 scroll-m-0" data-theme="dark">
+
+  <!-- Chat Container to wrap chat list and typing area -->
+  <div id="chatContainer" class="w-full max-w-2xl mx-auto">
+
+    <!-- Chat List -->
+    <div id="chat1" class="chat-list bg-black max-w-full overflow-y-auto p-4 rounded-lg shadow-md">
+      <!-- Chat messages will appear here -->
+    </div>
+   
+    <!-- Header -->
+    <div id="header" class="justify-center flex flex-col ">
+      
+      <div id="hd1" class="text-center flex flex-col justify-around items-center min-h-scree">
+        <h2 id="hd2" class="text-3xl sm:text-4xl font-extrabold text-gray-500">Hello, There!</h2>
+        <h4 id="hd4" class="text-lg sm:text-xl font-semibold text-blue-500">How can I assist?</h4>
+       
+      </div>
+      
+      
+      <!-- Suggestions List -->
+      <ul id="sugL" class="suggestion-list grid grid-cols-1 sm:grid-cols-2 gap-4 ">
+        <!-- Suggestion Items -->
+        <li id="sug3" class="suggestions flex items-center justify-center p-3 sm:p-4 rounded-lg transition-all duration-300 ease-in-out">
+          <span id="icon1" class="material-symbols-outlined text-4xl sm:text-5xl text-cyan-400">draw</span>
+          <h4 id="txt" class="txt ml-3 sm:ml-4 text-base sm:text-lg font-semibold hidden">Write a short story about a world where music has magical powers, transforming emotions and landscapes</h4> <span> Creative </span>
+        </li>
+  
+        <li id="sug1" class="suggestions flex items-center justify-center p-3 sm:p-4 rounded-lg transition-all duration-300 ease-in-out">
+          <span id="icon2" class="material-symbols-outlined text-4xl sm:text-5xl text-yellow-400">lightbulb</span>
+          <h4 id="txt" class="txt ml-3 sm:ml-4 text-base sm:text-lg font-semibold hidden">"Brainstorm an innovative app that could solve a common problem people face daily."</h4> <span> Idea </span>
+        </li>
+  
+        <li id="sug2" class="suggestions flex items-center justify-center p-3 sm:p-4 rounded-lg transition-all duration-300 ease-in-out">
+          <span id="icon3" class="material-symbols-outlined text-4xl sm:text-5xl text-green-400">explore</span>
+          <h4 id="txt" class="txt ml-3 sm:ml-4 text-base sm:text-lg font-semibold hidden">"Describe a hidden gem in your city that most people don't know about and why it's special to you."</h4> <span> Explore </span>
+        </li>
+  
+        <li id="sug4" class="suggestions flex items-center justify-center p-3 sm:p-4 rounded-lg transition-all duration-300 ease-in-out">
+          <span id="icon4" class="material-symbols-outlined text-4xl sm:text-5xl text-purple-400">code</span>
+          <h4 id="txt" class="txt ml-3 sm:ml-4 text-base sm:text-lg font-semibold hidden">"Create a JavaScript function that takes an array of numbers and returns the sum of all even numbers."</h4> <span> Code</span>
+        </li>
+      </ul>
+    </div>
+    <!-- Typing Area -->
+   
+    
+
+  </div>
+  <div id="cont1" class="shadow-2xl backdrop-blur-lg rounded-lg p-4 sm:p-6 w-full scro space-y-4 sm:space-y-6 scroll-auto fixed bottom-0 left-0 right-0">
+    <div id="typeArea" class="typing-area relative">
+      <form id="typeForm" action="#" class="typing-form">
+        <div id="inputWrap" class="input-wrapper flex items-center space-x-2 sm:space-x-3">
+          <input id="inputBox" type="text" placeholder="Type something..." class="flex-grow p-2 sm:p-3 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" style="background-color: var(--suggestion-bg); color: var(--text-color);" />
+          <span id="sendIcon" class="material-symbols-outlined text-3xl cursor-pointer hover:text-blue-500 transition-all duration-200 ease-in-out" style="color: var(--text-color);">send</span>
+        </div>
+  
+        <!-- Action Buttons -->
+        <div id="actBtn" class="action-btn flex items-center justify-between mt-3 sm:mt-4">
+          <div id="actLeft" class="flex items-center space-x-4">
+            <span id="lightIcon" class="material-symbols-outlined text-3xl cursor-pointer hover:text-yellow-500 transition-all duration-200 ease-in-out">light_mode</span>
+            <span id="newChatIcon" class="material-symbols-outlined text-3xl cursor-pointer hover:text-blue-500 transition-all duration-200 ease-in-out">chat</span>
+            <span id="delIcon" class="material-symbols-outlined text-3xl cursor-pointer hover:text-red-500 transition-all duration-200 ease-in-out">delete</span>
+          </div>
+          <p id="disc" class="disclaimer text-xs sm:text-sm text-gray-400">Powered by Gemini AI</p>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+ 
+
+    // Function to scroll to the bottom
+    function scrollToBottom() {
+      chatList.scrollTop = chatList.scrollHeight;
+    }
+
+    // Example function to add chat messages and scroll down
+    function addMessage(content) {
+      const message = document.createElement('div');
+      message.textContent = content;
+      message.classList.add('bg-gray-800', 'text-white', 'p-3', 'rounded-lg');
+      chatList.appendChild(message);
+      scrollToBottom(); // Automatically scroll down
+    }
+
+    // Example usage
+    addMessage('Hello!');
+    addMessage('How can I assist you today?');
+  </script>
+  <script src="app.js"> </script>
+
+</body>
+
+</html>
