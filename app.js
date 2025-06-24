@@ -15,7 +15,7 @@ let ifGenerating = false;
 let chatHistory = []; // Store chat history
 
 // API key and URL
-const API_KEY = `AIzaSyA94sXJr1pU_vCLWWSFRp2rPHrbViov72Y`;
+const API_KEY = ``;
 const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
 
 // Hide header and recommendations when a message is sent
